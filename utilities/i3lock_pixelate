@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# This is an easier-to-tweak version of Steffen Honig's i3lock
+# script.  If it doesn't work, it's his fault ;)
+#
+
+# scrot saves to $TEMP_FILE and the image passed to i3lock is
+# $TEMP_FILE_POST
+TEMP_FILE=/tmp/lock.png
+TEMP_FILE_POST=/tmp/lock.modified.png
+
+# Bar background and font colors
+BAR_BG_COLOR="orange"
+BAR_FONT_COLOR="white"
+
+# Use convert -list font to get a list of system fonts
+BAR_FONT="Source-Code-Pro-Black"
+#STROKE_OPTS="-stroke black -strokewidth 1"
+
+# Bar dimensions
+BAR_WIDTH="1920"
+BAR_HEIGHT="35"
+
+# Lock screen message
+MESSAGE="SYSTEM LOCKED: $USER"
+
+# Mogrify and convert command-line options
+MOGRIFY_OPTS="-scale 10% -scale 1000% $TEMP_FILE"
+CONVERT_OPTS="-background $BAR_BG_COLOR -gravity center -fill $BAR_FONT_COLOR -font $BAR_FONT $STROKE_OPTS -size ${BAR_WIDTH}x${BAR_HEIGHT} caption:@- $TEMP_FILE +swap -composite $TEMP_FILE_POST"
+
+rm $TEMP_FILE $TEMP_FILE_POST
+scrot $TEMP_FILE
+mogrify $MOGRIFY_OPTS
+echo $MESSAGE | tr -d "\n" | convert $CONVERT_OPTS
+i3lock -i $TEMP_FILE_POST

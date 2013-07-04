@@ -1,0 +1,26 @@
+#!/bin/env python2
+
+from Battery import Battery
+
+batt = Battery()
+
+try:
+    time_left = ":".join(batt.getTimeLeft())
+except:
+    time_left = "00:00:00"
+percent = "%i" % (batt.getPercent() * 100)
+batt_status = batt.getStatus()
+if batt_status == Battery.CHARGING:
+    status = u'AC'
+elif batt_status == Battery.DISCHARGING:
+    status = u'Batt'
+elif batt_status == Battery.FULL:
+    status = u'AC'
+    time_left = "Fully Charged"
+    percent = 100
+elif batt_status == Battery.UNKNOWN:
+    status = u'??'
+    time_left = "Unknown"
+
+output = "%s [%s%%] {%s}" % (time_left, percent, status)
+print output

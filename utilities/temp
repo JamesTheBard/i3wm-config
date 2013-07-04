@@ -1,0 +1,7 @@
+#scrot $TEMP_FILE
+#mogrify
+#scrot /tmp/lock.png
+#mogrify -scale 10% -scale 1000% /tmp/lock.png
+#convert -background orange -gravity center -fill white -font Source-Code-Pro-Black -size 1920x30 caption:"SYSTEM LOCKED" /tmp/lock.png +swap -composite /tmp/lock.modified.png 
+#i3lock -i /tmp/lock.modified.png
+

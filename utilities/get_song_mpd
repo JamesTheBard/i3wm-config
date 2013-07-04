@@ -1,0 +1,17 @@
+#!/usr/bin/env perl
+
+use Switch;
+
+# Grab the first line from 'mpc' and throw it into 
+@song = split("\n", `mpc 2>&1`);
+
+switch ($song[0]) {
+    case /Connection refused/ { print "MPD not running\n" }
+    case /^volume/            { print "Music playback stopped\n"}
+    else {
+        $time_regex = qr/[0-9]+:[0-9]+/;
+        $playing_regex = qr/\[[a-z]+]/;
+        $song[1] =~ /($playing_regex).+($time_regex)\/($time_regex)/;
+        print "${song[0]} [$2/$3]\n";
+    }
+}
